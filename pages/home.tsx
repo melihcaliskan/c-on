@@ -22,7 +22,7 @@ export function Home() {
     setTimeout(() => {
       fetchGames();
       fetchCategories();
-    }, 1);
+    }, 500);
   }, []);
 
   useEffect(() => {
