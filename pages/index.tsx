@@ -27,7 +27,7 @@ export function Login() {
 
 
     // Validate inputs
-    if (username?.length === 0 && password?.length === 0) {
+    if (username?.length === 0 || password?.length === 0) {
       setRes({
         error: "Enter your username and password.",
         status: "fail"
@@ -62,8 +62,8 @@ export function Login() {
     setRes(err.response.data);
   }
 
-  return (
-    <Grid centered className="login">
+  function renderForm() {
+    return (
       <Grid.Row>
         <Grid.Column width={4}>
           <Form loading={loading}>
@@ -94,7 +94,11 @@ export function Login() {
           </Form>
         </Grid.Column>
       </Grid.Row>
+    )
+  }
 
+  function renderMessage() {
+    return (
       <Grid.Row>
         <Grid.Column>
           <Form
@@ -115,6 +119,13 @@ export function Login() {
           </Form>
         </Grid.Column>
       </Grid.Row>
+    )
+  }
+
+  return (
+    <Grid centered className="login">
+      {renderForm()}
+      {renderMessage()}
     </Grid>
   )
 }

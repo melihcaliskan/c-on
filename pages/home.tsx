@@ -15,22 +15,30 @@ export function Home() {
   const [categories, setCategories] = useState<undefined | ISidebar.ICategoryItem[]>(undefined);
   const [games, setGames] = useState<undefined | IGame.IGameItem[]>(undefined);
   const [filteredGameList, setFilteredGameList] = useState<undefined | IGame.IGameItem[]>(undefined);
+  const [filteredCategory, setFilteredCategory] = useState<undefined | ISidebar.ICategoryItem>(undefined);
 
   useEffect(() => {
     // Slowdown for skeleton
     setTimeout(() => {
       fetchGames();
       fetchCategories();
-    }, 500);
+    }, 1);
   }, []);
 
   useEffect(() => {
     if (search?.length > 0) {
-      handleFilter();
+      handleFilterInput();
     } else {
+      // Don't re-fetch, set last fetched data.
       setFilteredGameList(games);
     }
   }, [search]);
+
+  useEffect(() => {
+    if (filteredCategory) {
+      handleFilterCategory();
+    }
+  }, [filteredCategory]);
 
   async function fetchGames() {
     GameService.GetAll()
@@ -43,11 +51,15 @@ export function Home() {
 
   async function fetchCategories() {
     CategoryService.GetAll()
-      .then(res => setCategories(res))
+      .then(res => {
+        setCategories(res)
+        setFilteredCategory(res[0]);
+      })
       .catch(err => console.log(err));
   }
 
-  function handleFilter() {
+  // Filter for search input
+  function handleFilterInput() {
     // Convert input to lower for better comparison.
     const inputToLower = search.toLowerCase();
 
@@ -58,55 +70,43 @@ export function Home() {
     setFilteredGameList(filteredGames);
   }
 
+  // Filter for category
+  function handleFilterCategory() {
+    // Check if game has selected category.
+    const filteredGames = games?.filter(game => game.categoryIds.includes(filteredCategory!.id));
+    setFilteredGameList(filteredGames);
+  }
+
   return (
-    <div className="casino">
+    <Grid>
+      <Grid.Row>
+        <Grid.Column width={12}>
+          <UserCard />
+        </Grid.Column>
 
-      <div className="ui grid centered">
-        <div className="twelve wide column">
-          <div className="ui list">
+        <Grid.Column width={4}>
+          <Input
+            placeholder="Search Game"
+            icon="search"
+            size="small"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)} />
+        </Grid.Column>
+      </Grid.Row>
 
-            {/* <!-- player item template --> */}
-            <div className="player item">
-              {/* <Image className="ui avatar image" src="" alt="avatar" /> */}
+      <Grid.Row>
+        <Grid.Column width={12}>
+          <GameList games={filteredGameList} />
+        </Grid.Column>
 
-              <div className="content">
-                <div className="header"><b className="name"></b></div>
-                <div className="description event"></div>
-              </div>
-            </div>
-            {/* <!-- end player item template --> */}
-
-          </div>
-
-        </div>
-      </div>
-      <Grid>
-        <Grid.Row>
-          <Grid.Column width={12}>
-            <UserCard />
-          </Grid.Column>
-
-          <Grid.Column width={4}>
-            <Input
-              placeholder="Search Game"
-              icon="search"
-              size="small"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)} />
-          </Grid.Column>
-        </Grid.Row>
-
-        <Grid.Row>
-          <Grid.Column width={12}>
-            <GameList games={filteredGameList} />
-          </Grid.Column>
-
-          <Grid.Column width={4}>
-            <Sidebar categories={categories} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </div>
+        <Grid.Column width={4}>
+          <Sidebar
+            categories={categories}
+            filteredCategory={filteredCategory}
+            setFilteredCategory={setFilteredCategory} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   )
 }
 

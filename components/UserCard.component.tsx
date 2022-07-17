@@ -6,7 +6,6 @@ import { Item, Image, Grid, Header, Button } from "semantic-ui-react";
 export function UserCard() {
   const { authState, dispatch, logOut }: any = useAuth();
   const { avatar, event, name }: ILogin.Player = authState
-  
   function onLogout() {
     logOut();
   }
@@ -34,7 +33,6 @@ export function UserCard() {
 
       <Button
         secondary
-        className='logoutBtn'
         icon='left chevron'
         content='Log Out'
         onClick={onLogout}

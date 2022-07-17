@@ -3,4 +3,5 @@ export enum Endpoints {
   Logout = "/logout",
   Categories = "/categories",
   Games = "/games",
+  GameDetail = "/game"
 }

@@ -9,6 +9,10 @@ const GameService = {
   GetAll: async () => {
     const res = await Http.GET(Endpoints.Games);
     return res.data;
+  },
+  GetDetail: async (slug: string) => {
+    const res = await Http.GET(Endpoints.GameDetail + "/" + slug);
+    return res.data;
   }
 }
 

@@ -1,10 +1,14 @@
-import { ISidebar } from '@/interfaces/ISidebar.interface';
 import React from 'react'
-import { Container, Divider, Header, List } from 'semantic-ui-react'
+import { Container, Divider, Header, Icon, List } from 'semantic-ui-react'
+import { ISidebar } from '@/interfaces/ISidebar.interface';
 import CategoryPlaceholder from './CategoryPlaceholder.component';
 
 export function Sidebar(props: ISidebar.ISidebarProps) {
-  const { categories } = props;
+  const { categories, filteredCategory, setFilteredCategory } = props;
+
+  function filterCategory(category: ISidebar.ICategoryItem) {
+    setFilteredCategory(category);
+  }
 
   function renderList() {
     if (typeof categories === "undefined") {
@@ -19,9 +23,15 @@ export function Sidebar(props: ISidebar.ISidebarProps) {
 
     return categories?.map((category, idx) => {
       const { name } = category;
+      const selected = category.id === filteredCategory?.id;
       return (
-        <List.Item key={idx}>
-          <List.Header>{name}</List.Header>
+        <List.Item onClick={() => filterCategory(category)} key={idx}>
+          {selected &&
+            <Icon name='angle right' />
+          }
+          <List.Content>
+            <List.Header>{name}</List.Header>
+          </List.Content>
         </List.Item>
       )
     }

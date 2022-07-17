@@ -6,5 +6,7 @@ export namespace ISidebar {
 
   export interface ISidebarProps {
     categories?: ICategoryItem[];
+    filteredCategory?: ICategoryItem;
+    setFilteredCategory: (category: ICategoryItem) => void;
   }
 }

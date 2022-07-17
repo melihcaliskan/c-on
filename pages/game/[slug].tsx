@@ -1,8 +1,9 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { Button } from 'semantic-ui-react';
-import { games, gameSources } from '@/utilities/constants';
+import { Button, Grid } from 'semantic-ui-react';
+import { gameSources } from '@/utilities/constants';
 import { IGame } from '@/interfaces/IGame.interface';
+import GameService from '@/services/Game.service';
 
 export function Game(props: IGame.IGamePageProps) {
   const { game, gameSource } = props;
@@ -14,19 +15,18 @@ export function Game(props: IGame.IGamePageProps) {
   }
 
   return (
-    <div className="ingame">
-      <div className="ui grid centered">
-        <div className="three wide column">
+    <Grid>
+      <Grid.Row>
+        <Grid.Column width={3}>
           <Button
             secondary
-            inverted
             content='Back'
             icon='left chevron'
             onClick={onBack}
           />
-        </div>
+        </Grid.Column>
 
-        <div className="ten wide column">
+        <Grid.Column width={10}>
           <div id="game-launch">
             <iframe
               id="game"
@@ -36,17 +36,16 @@ export function Game(props: IGame.IGamePageProps) {
               height={480}
               title={name} />
           </div>
-        </div>
-        <div className="three wide column"></div>
-      </div>
-    </div>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   )
 }
 
 export async function getServerSideProps(ctx: NextPageContext) {
   const { query } = ctx;
-  const slug = query?.slug;
-  const game = games.find(game => game.code === slug);
+  const slug = query?.slug?.toString() || "";
+  const game = await GameService.GetDetail(slug);
 
   if (!slug || !game) {
     return {
