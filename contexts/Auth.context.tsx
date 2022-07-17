@@ -18,9 +18,17 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const data = localStorage.getItem('authData') || "";
-    const authData: IAuth.IAuthState | undefined = JSON.parse(data);
+    const data = localStorage.getItem('authData');
 
+    // No data in storage.
+    if (typeof data === "undefined") {
+      return;
+    }
+
+    // Parse stored data.
+    const authData: IAuth.IAuthState | undefined = JSON.parse(data!);
+
+    // If parsed successfully.
     if (authData) {
       dispatch({
         type: AuthConst.LOGIN,
@@ -37,7 +45,10 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       payload: userData
     });
 
+    // Set to storage.
     localStorage.setItem("authData", JSON.stringify(userData));
+
+    // Redirect to home.
     router.replace("/home");
   }
 
@@ -55,6 +66,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   }
 
+  // Do not render while loading. 
   if (loading) {
     return (
       <div />
