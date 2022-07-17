@@ -1,5 +1,6 @@
 
 const BASE_API_URL = "http://localhost:3000/api/"
+const VERCEL_URL = "https://come-on-group.vercel.app/api/"
 
 const gameSources = {
   starburst: {
@@ -81,4 +82,4 @@ const AUTH_INITIAL_STATE = {
 }
 
 
-export { AUTH_INITIAL_STATE, BASE_API_URL, gameSources, games, categories }
+export { AUTH_INITIAL_STATE, BASE_API_URL, VERCEL_URL, gameSources, games, categories }

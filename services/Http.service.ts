@@ -1,4 +1,4 @@
-import { BASE_API_URL } from "@/utilities/constants";
+import { BASE_API_URL, VERCEL_URL } from "@/utilities/constants";
 import axios from "axios";
 
 const axiosHeaders = {
@@ -6,7 +6,8 @@ const axiosHeaders = {
   "Content-Type": "application/json;charset=UTF-8",
 }
 
-axios.defaults.baseURL = BASE_API_URL;
+const isProd = process.env.NODE_ENV === "production";
+axios.defaults.baseURL = isProd ? VERCEL_URL : BASE_API_URL;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common = axiosHeaders;
 
