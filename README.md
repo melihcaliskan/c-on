@@ -43,6 +43,7 @@ tsc
 ## 📝 Notes
 * I installed Semantic UI as a npm package, so the stylesheet folder is no longer needed
 * I moved assets to public folder for Next.js
-* I'll get rid of "any" and "TODOs"
+* I added tests for 2 components
+* I created docker container for project 
 * Console error:
   * Semantic UI related and can be ignored: https://github.com/Semantic-Org/Semantic-UI-React/issues/4050#issuecomment-682079100
