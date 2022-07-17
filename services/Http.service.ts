@@ -1,5 +1,5 @@
-import { BASE_API_URL, VERCEL_URL } from "@/utilities/constants";
 import axios from "axios";
+import { BASE_API_URL, VERCEL_URL } from "@/utilities/constants";
 
 const axiosHeaders = {
   "accept": "application/json, text/plain, */*",

@@ -1,4 +1,4 @@
-export const players = {
+{
   "rebecka": {
     "name": "Rebecka Awesome",
     "avatar": "images/avatar/rebecka.jpg",
@@ -10,7 +10,6 @@ export const players = {
     "avatar": "images/avatar/eric.jpg",
     "event": "I saw you won 500 SEK last time!",
     "password": "dad"
-
   },
   "stoffe": {
     "name": "Stoffe Rocker",
@@ -18,6 +17,4 @@ export const players = {
     "event": "Your are a rock star",
     "password": "rock"
   }
-};
-
-export default players;
+}

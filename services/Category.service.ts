@@ -1,15 +1,15 @@
 import Http from "@/services/Http.service";
 import { Endpoints } from "@/utilities/endpoints";
 
-const GameService = {
+const CategoryService = {
   /**
    *
-   * @returns -> All games
+   * @returns -> All categories
    */
   GetAll: async () => {
-    const res = await Http.GET(Endpoints.Games);
+    const res = await Http.GET(Endpoints.Categories);
     return res.data;
   }
 }
 
-export default GameService;
+export default CategoryService;

@@ -16,6 +16,6 @@ export namespace IGame {
   }
 
   export interface IGameListProps {
-    games: IGameItem[];
+    games?: IGameItem[];
   }
 }

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import players from './players';
+import players from "./mockData/players.json";
 
 // TODO: Define status type
 type Response = {

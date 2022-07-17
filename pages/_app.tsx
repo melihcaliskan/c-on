@@ -2,11 +2,9 @@ import 'semantic-ui-css/semantic.min.css'
 import '../styles/globals.css'
 
 import type { AppProps } from 'next/app'
-import Layout from '../components/Layout.component'
 import { useEffect } from 'react'
 import { AuthProvider } from '@/contexts/Auth.context'
-
-
+import Layout from '@/components/Layout.component'
 
 function ComeOnApp({ Component, pageProps }: AppProps) {
   useEffect(() => {

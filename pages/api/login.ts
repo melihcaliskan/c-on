@@ -1,6 +1,6 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { ILogin } from '@/interfaces/ILogin.interface';
-import type { NextApiRequest, NextApiResponse } from 'next'
-import players from './players';
+import players from "./mockData/players.json";
 
 export default function handler(
   req: NextApiRequest,

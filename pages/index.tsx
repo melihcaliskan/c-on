@@ -1,21 +1,25 @@
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Button, Form, Message, Grid } from 'semantic-ui-react'
-import LoginService from '@/services/Login.service';
 import { ILogin } from '@/interfaces/ILogin.interface';
 import { useAuth } from '@/contexts/Auth.context';
-import { AuthConst } from '@/contexts/Auth.const';
+import LoginService from '@/services/Login.service';
+import { useRouter } from 'next/router';
 
-export function Home() {
+export function Login() {
   const router = useRouter();
-  const { authState, dispatch }: any = useAuth();
+  const { authState, login }: any = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [res, setRes] = useState<ILogin.ILoginResponse>({});
 
+  // If user logged in,
+  // redirect to home page.
+  if (authState.isLoggedIn) {
+    router.replace("/home");
+  }
+
   function onSubmit(e: React.MouseEvent<HTMLButtonElement>) {
-    console.log("authState", authState)
     // Prevent default action
     // and set loading
     e.preventDefault();
@@ -32,6 +36,7 @@ export function Home() {
       return;
     }
 
+    // Make network request
     LoginService.Login({ username, password })
       .then(handleSuccess)
       .catch(handleError);
@@ -40,15 +45,17 @@ export function Home() {
   }
 
   function handleSuccess(data: ILogin.ILoginResponse) {
+    // Set response
     setRes(data);
 
-    if (data?.status === "success") {
-      dispatch({
-        type: AuthConst.LOGIN,
-        payload: data.player
-      })
-      router.replace("/home");
+    // Add username to response
+    const userData = {
+      ...data.player,
+      username
     }
+
+    // Call useAuth.login for dispatch and redirect
+    login(userData);
   }
 
   function handleError(err: any) {
@@ -112,4 +119,4 @@ export function Home() {
   )
 }
 
-export default Home
+export default Login;

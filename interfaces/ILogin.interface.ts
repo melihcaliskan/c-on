@@ -6,7 +6,7 @@ export namespace ILogin {
     event: string;
     password?: string;
   }
-  
+
   export interface ILoginForm {
     username: string;
     password: string;
@@ -18,4 +18,7 @@ export namespace ILogin {
     player?: Player;
   }
 
+  export interface ILogoutBody {
+    username: string;
+  }
 }

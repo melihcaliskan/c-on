@@ -5,30 +5,57 @@ import { Grid, Input } from 'semantic-ui-react'
 import { UserCard } from "@/components/UserCard.component";
 import { GameList } from "@/components/GameList.component";
 import { Sidebar } from "@/components/Sidebar.component";
-import { games } from "@/utilities/constants";
+import { IGame } from "@/interfaces/IGame.interface";
+import { ISidebar } from "@/interfaces/ISidebar.interface";
+import GameService from "@/services/Game.service";
+import CategoryService from "@/services/Category.service";
 
 export function Home() {
   const [search, setSearch] = useState("");
-  const [gameList, setGameList] = useState(games);
+  const [categories, setCategories] = useState<undefined | ISidebar.ICategoryItem[]>(undefined);
+  const [games, setGames] = useState<undefined | IGame.IGameItem[]>(undefined);
+  const [filteredGameList, setFilteredGameList] = useState<undefined | IGame.IGameItem[]>(undefined);
+
+  useEffect(() => {
+    // Slowdown for skeleton
+    setTimeout(() => {
+      fetchGames();
+      fetchCategories();
+    }, 500);
+  }, []);
 
   useEffect(() => {
     if (search?.length > 0) {
       handleFilter();
     } else {
-      setGameList(games);
+      setFilteredGameList(games);
     }
   }, [search]);
 
+  async function fetchGames() {
+    GameService.GetAll()
+      .then(res => {
+        setGames(res);
+        setFilteredGameList(res);
+      })
+      .catch(err => console.log(err));
+  }
+
+  async function fetchCategories() {
+    CategoryService.GetAll()
+      .then(res => setCategories(res))
+      .catch(err => console.log(err));
+  }
 
   function handleFilter() {
     // Convert input to lower for better comparison.
     const inputToLower = search.toLowerCase();
 
     // Search for name and description.
-    const filteredGames = games.filter(game => game.name.toLowerCase().includes(inputToLower)
+    const filteredGames = games?.filter(game => game.name.toLowerCase().includes(inputToLower)
       || game.description.toLowerCase().includes(inputToLower));
 
-    setGameList(filteredGames);
+    setFilteredGameList(filteredGames);
   }
 
   return (
@@ -71,35 +98,14 @@ export function Home() {
 
         <Grid.Row>
           <Grid.Column width={12}>
-            <GameList games={gameList} />
+            <GameList games={filteredGameList} />
           </Grid.Column>
-        </Grid.Row>
-      </Grid>
 
-      <Grid>
-        <Grid.Row>
           <Grid.Column width={4}>
-            <Sidebar />
+            <Sidebar categories={categories} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
-
-
-      <div className="four wide column">
-        <h3 className="ui dividing header">Categories</h3>
-
-        <div className="ui selection animated list category items">
-
-          {/* <!-- category item template --> */}
-          <div className="category item">
-            <div className="content">
-              <div className="header"></div>
-            </div>
-          </div>
-          {/* <!-- end category item template --> */}
-
-        </div>
-      </div>
     </div>
   )
 }

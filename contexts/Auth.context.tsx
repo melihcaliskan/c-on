@@ -1,12 +1,55 @@
-import { AUTH_INITIAL_STATE } from '@/utilities/constants';
-import * as React from 'react'
-import authReducer from './Auth.reducer';
+// eslint-disable-next-line react-hooks/exhaustive-deps
 
+import LoginService from '@/services/Login.service';
+import { AUTH_INITIAL_STATE, AUTH_ROUTES } from '@/utilities/constants';
+import { useRouter } from 'next/router';
+import * as React from 'react'
+import { useEffect } from 'react';
+import { AuthConst } from './Auth.const';
+import authReducer from './Auth.reducer';
 const AuthContext = React.createContext(AUTH_INITIAL_STATE);
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [state, dispatch] = React.useReducer(authReducer, AUTH_INITIAL_STATE)
-  const value: any = { authState: state, dispatch }
+  const value: any = { authState: state, dispatch, login, logOut }
+
+  useEffect(() => {
+    const data: any = localStorage.getItem('authData');
+    const authData = JSON.parse(data);
+
+    if (authData) {
+      dispatch({
+        type: AuthConst.LOGIN,
+        payload: authData
+      });
+    }
+  }, []);
+
+  function login(userData: any) {
+    dispatch({
+      type: AuthConst.LOGIN,
+      payload: userData
+    });
+
+    localStorage.setItem("authData", JSON.stringify(userData));
+    router.replace("/home");
+  }
+
+  function logOut() {
+    LoginService.Logout({ username: state.username }).then(res => {
+      localStorage.removeItem("authData");
+      dispatch({
+        type: AuthConst.LOGOUT
+      });
+      router.replace("/");
+    }).catch(err => {
+
+      alert(err.response.data.error);
+    })
+
+  }
+
   return (
     <AuthContext.Provider
       value={value}>

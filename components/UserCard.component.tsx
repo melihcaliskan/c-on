@@ -4,12 +4,11 @@ import { ILogin } from '@/interfaces/ILogin.interface';
 import { Item, Image, Grid, Header, Button } from "semantic-ui-react";
 
 export function UserCard() {
-  const { authState, dispatch }: any = useAuth();
+  const { authState, dispatch, logOut }: any = useAuth();
   const { avatar, event, name }: ILogin.Player = authState
+  
   function onLogout() {
-    dispatch({
-      type: AuthConst.LOGOUT
-    })
+    logOut();
   }
 
   return (
