@@ -22,13 +22,8 @@ const gameSources = {
 
 const AUTH_INITIAL_STATE = {
   isLoggedIn: false
-}
+};
 
-// const AUTH_INITIAL_STATE = {
-//   "isLoggedIn": true, "username": "rebecka", "name": "Rebecka Awesome", "avatar": "images/avatar/rebecka.jpg", "event": "Last seen gambling on Starburst."
-// }
+const AUTH_ROUTES = ["/home", "/game/[slug]"];
 
-const AUTH_ROUTES = ["/home", "/game/[slug]"]
-
-
-export { AUTH_ROUTES, AUTH_INITIAL_STATE, BASE_API_URL, VERCEL_URL, gameSources }
+export { AUTH_ROUTES, AUTH_INITIAL_STATE, BASE_API_URL, VERCEL_URL, gameSources };

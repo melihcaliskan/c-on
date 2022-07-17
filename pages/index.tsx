@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Button, Form, Message, Grid } from 'semantic-ui-react'
 import { ILogin } from '@/interfaces/ILogin.interface';
 import { useAuth } from '@/contexts/Auth.context';
-import LoginService from '@/services/Login.service';
 import { useRouter } from 'next/router';
+import LoginService from '@/services/Login.service';
 
 export function Login() {
   const router = useRouter();

@@ -6,6 +6,12 @@ import { IGame } from '../interfaces/IGame.interface';
 export function GameCard(props: IGame.IGameCardProps) {
   const router = useRouter();
   const { game } = props;
+
+  if (!game) {
+    console.warn("No data provided...");
+    return null;
+  }
+
   const { code, description, icon, name } = game;
 
   function onPlay() {
