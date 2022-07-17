@@ -31,6 +31,12 @@ npm run dev:up (Start with Docker Compose)
 npm test
 ```
 
+## 🔍 Type Check
+```sh
+npm install typescript -g
+tsc
+```
+
 
 ## ⏳ TODO
 * i18n

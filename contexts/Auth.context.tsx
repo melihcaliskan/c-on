@@ -1,5 +1,6 @@
 // eslint-disable-next-line react-hooks/exhaustive-deps
 
+import { IAuth } from '@/interfaces/IAuth.interface';
 import LoginService from '@/services/Login.service';
 import { AUTH_INITIAL_STATE, AUTH_ROUTES } from '@/utilities/constants';
 import { useRouter } from 'next/router';
@@ -7,17 +8,18 @@ import * as React from 'react'
 import { useEffect, useState } from 'react';
 import { AuthConst } from './Auth.const';
 import authReducer from './Auth.reducer';
-const AuthContext = React.createContext(AUTH_INITIAL_STATE);
+
+const AuthContext: React.Context<any> = React.createContext(AUTH_INITIAL_STATE);
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [state, dispatch] = React.useReducer(authReducer, AUTH_INITIAL_STATE)
-  const value: any = { authState: state, dispatch, login, logOut }
+  const value: IAuth.IAuthHook = { authState: state, dispatch, login, logOut }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const data: any = localStorage.getItem('authData');
-    const authData = JSON.parse(data);
+    const data = localStorage.getItem('authData') || "";
+    const authData: IAuth.IAuthState | undefined = JSON.parse(data);
 
     if (authData) {
       dispatch({
@@ -29,7 +31,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(false);
   }, []);
 
-  function login(userData: any) {
+  function login(userData: IAuth.IAuthState) {
     dispatch({
       type: AuthConst.LOGIN,
       payload: userData

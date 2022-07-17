@@ -9,15 +9,12 @@ import { IGame } from "@/interfaces/IGame.interface";
 import { ISidebar } from "@/interfaces/ISidebar.interface";
 import GameService from "@/services/Game.service";
 import CategoryService from "@/services/Category.service";
+import useFilter from "@/hooks/useFilter.hooks";
 
 export function Home() {
-  const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<undefined | ISidebar.ICategoryItem[]>(undefined);
   const [games, setGames] = useState<undefined | IGame.IGameItem[]>(undefined);
-  
-  // TODO: Create useFilter hook
-  const [filteredGameList, setFilteredGameList] = useState<undefined | IGame.IGameItem[]>(undefined);
-  const [filteredCategory, setFilteredCategory] = useState<undefined | ISidebar.ICategoryItem>(undefined);
+  const { category, filteredGames, input, setCategory, setInput } = useFilter(games);
 
   useEffect(() => {
     // Slowdown for skeleton
@@ -27,26 +24,10 @@ export function Home() {
     }, 500);
   }, []);
 
-  useEffect(() => {
-    if (search?.length > 0) {
-      handleFilterInput();
-    } else {
-      // Don't re-fetch, set last fetched data.
-      setFilteredGameList(games);
-    }
-  }, [search]);
-
-  useEffect(() => {
-    if (filteredCategory) {
-      handleFilterCategory();
-    }
-  }, [filteredCategory]);
-
   async function fetchGames() {
     GameService.GetAll()
       .then(res => {
         setGames(res);
-        setFilteredGameList(res);
       })
       .catch(err => console.log(err));
   }
@@ -55,28 +36,8 @@ export function Home() {
     CategoryService.GetAll()
       .then(res => {
         setCategories(res)
-        setFilteredCategory(res[0]);
       })
       .catch(err => console.log(err));
-  }
-
-  // Filter for search input
-  function handleFilterInput() {
-    // Convert input to lower for better comparison.
-    const inputToLower = search.toLowerCase();
-
-    // Search for name and description.
-    const filteredGames = games?.filter(game => game.name.toLowerCase().includes(inputToLower)
-      || game.description.toLowerCase().includes(inputToLower));
-
-    setFilteredGameList(filteredGames);
-  }
-
-  // Filter for category
-  function handleFilterCategory() {
-    // Check if game has selected category.
-    const filteredGames = games?.filter(game => game.categoryIds.includes(filteredCategory!.id));
-    setFilteredGameList(filteredGames);
   }
 
   function renderHeader() {
@@ -98,8 +59,8 @@ export function Home() {
               placeholder="Search Game"
               icon="search"
               size="small"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)} />
+              value={input}
+              onChange={(e) => setInput(e.target.value)} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -110,14 +71,14 @@ export function Home() {
     return (
       <Grid reversed="mobile vertically">
         <Grid.Column mobile={16} computer={12}>
-          <GameList games={filteredGameList} />
+          <GameList games={filteredGames} />
         </Grid.Column>
 
         <Grid.Column mobile={16} computer={4}>
           <Sidebar
             categories={categories}
-            filteredCategory={filteredCategory}
-            setFilteredCategory={setFilteredCategory} />
+            selectedCategory={category}
+            setCategory={setCategory} />
         </Grid.Column>
       </Grid>
     )

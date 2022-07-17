@@ -4,10 +4,10 @@ import { ISidebar } from '@/interfaces/ISidebar.interface';
 import CategoryPlaceholder from './CategoryPlaceholder.component';
 
 export function Sidebar(props: ISidebar.ISidebarProps) {
-  const { categories, filteredCategory, setFilteredCategory } = props;
+  const { categories, selectedCategory, setCategory } = props;
 
   function filterCategory(category: ISidebar.ICategoryItem) {
-    setFilteredCategory(category);
+    setCategory(category);
   }
 
   function renderList() {
@@ -23,7 +23,7 @@ export function Sidebar(props: ISidebar.ISidebarProps) {
 
     return categories?.map((category, idx) => {
       const { name } = category;
-      const selected = category.id === filteredCategory?.id;
+      const selected = category.id === selectedCategory?.id;
       return (
         <List.Item onClick={() => filterCategory(category)} key={idx}>
           {selected &&

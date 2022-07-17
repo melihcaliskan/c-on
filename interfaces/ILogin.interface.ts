@@ -1,5 +1,5 @@
+export type IResponseStatus = "success" | "fail";
 export namespace ILogin {
-  export type ILoginStatus = "success" | "fail";
   export type Player = {
     name: string;
     avatar: string;
@@ -14,7 +14,7 @@ export namespace ILogin {
 
   export interface ILoginResponse {
     error?: string;
-    status?: ILoginStatus;
+    status?: IResponseStatus;
     player?: Player;
   }
 

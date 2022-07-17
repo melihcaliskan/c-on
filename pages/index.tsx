@@ -2,12 +2,11 @@ import { useState } from 'react'
 import { Button, Form, Message, Grid } from 'semantic-ui-react'
 import { ILogin } from '@/interfaces/ILogin.interface';
 import { useAuth } from '@/contexts/Auth.context';
-import { useRouter } from 'next/router';
 import LoginService from '@/services/Login.service';
+import { IAuth } from '@/interfaces/IAuth.interface';
 
 export function Login() {
-  const router = useRouter();
-  const { authState, login }: any = useAuth();
+  const { login }: any = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,7 +17,6 @@ export function Login() {
     // and set loading
     e.preventDefault();
     setLoading(true);
-
 
     // Validate inputs
     if (username?.length === 0 || password?.length === 0) {
@@ -52,7 +50,7 @@ export function Login() {
     login(userData);
   }
 
-  function handleError(err: any) {
+  function handleError(err: { response: { data: ILogin.ILoginResponse } }) {
     setRes(err.response.data);
   }
 

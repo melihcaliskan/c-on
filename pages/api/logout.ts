@@ -1,18 +1,14 @@
+import { ILogout } from '@/interfaces/ILogout.interface';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import players from "./mockData/players.json";
 
-// TODO: Define status type
-type Response = {
-  status: string;
-  error?: string;
-}
-
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Response>
+  res: NextApiResponse<ILogout.ILogoutResponse>
 ) {
   if (req.method === 'POST') {
     var username = req.body.username;
+    
     if (username in players) {
       res.status(200).json({
         status: 'success'

@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/Auth.context";
 import { Header } from "./Header.component"
 import { useRouter } from "next/router";
 import { AUTH_ROUTES } from "@/utilities/constants";
+import { IAuth } from "@/interfaces/IAuth.interface";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -16,7 +17,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       router.replace("/home");
     }
 
-    
+
     // If user not logged in,
     // and go home and game page.
     if (AUTH_ROUTES.includes(router.route) && !authState.isLoggedIn) {
