@@ -19,6 +19,8 @@ npm install
 
 ```sh
 npm run start:dev
+or
+npm run dev:up (Start with Docker Compose)
 ```
 <h5>This will start both the web server and the mock server.</h5>
 

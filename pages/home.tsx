@@ -14,6 +14,8 @@ export function Home() {
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<undefined | ISidebar.ICategoryItem[]>(undefined);
   const [games, setGames] = useState<undefined | IGame.IGameItem[]>(undefined);
+  
+  // TODO: Create useFilter hook
   const [filteredGameList, setFilteredGameList] = useState<undefined | IGame.IGameItem[]>(undefined);
   const [filteredCategory, setFilteredCategory] = useState<undefined | ISidebar.ICategoryItem>(undefined);
 
@@ -77,36 +79,55 @@ export function Home() {
     setFilteredGameList(filteredGames);
   }
 
-  return (
-    <Grid>
-      <Grid.Row>
-        <Grid.Column width={12}>
-          <UserCard />
-        </Grid.Column>
+  function renderHeader() {
+    return (
+      <Grid>
+        <Grid.Row>
+          <Grid.Column
+            mobile={16}
+            computer={12}>
+            <UserCard />
+          </Grid.Column>
 
-        <Grid.Column width={4}>
-          <Input
-            placeholder="Search Game"
-            icon="search"
-            size="small"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)} />
-        </Grid.Column>
-      </Grid.Row>
+          <Grid.Column
+            mobile={16}
+            computer={4}>
 
-      <Grid.Row>
-        <Grid.Column width={12}>
+            <Input
+              fluid
+              placeholder="Search Game"
+              icon="search"
+              size="small"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    )
+  }
+
+  function renderContent() {
+    return (
+      <Grid reversed="mobile vertically">
+        <Grid.Column mobile={16} computer={12}>
           <GameList games={filteredGameList} />
         </Grid.Column>
 
-        <Grid.Column width={4}>
+        <Grid.Column mobile={16} computer={4}>
           <Sidebar
             categories={categories}
             filteredCategory={filteredCategory}
             setFilteredCategory={setFilteredCategory} />
         </Grid.Column>
-      </Grid.Row>
-    </Grid>
+      </Grid>
+    )
+  }
+
+  return (
+    <>
+      {renderHeader()}
+      {renderContent()}
+    </>
   )
 }
 

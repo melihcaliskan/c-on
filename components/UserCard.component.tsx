@@ -16,7 +16,9 @@ export function UserCard() {
         <Item>
           <Item.Image
             avatar
+            className='avatar'
             size='mini'
+            floated='left'
             alt={`${name}'s Avatar`}
             src={`/${avatar}`} />
 
@@ -33,6 +35,7 @@ export function UserCard() {
 
       <Button
         secondary
+        className='logoutBtn'
         icon='left chevron'
         content='Log Out'
         onClick={onLogout}

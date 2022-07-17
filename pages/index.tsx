@@ -13,12 +13,6 @@ export function Login() {
   const [loading, setLoading] = useState(false);
   const [res, setRes] = useState<ILogin.ILoginResponse>({});
 
-  // If user logged in,
-  // redirect to home page.
-  if (authState.isLoggedIn) {
-    router.replace("/home");
-  }
-
   function onSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     // Prevent default action
     // and set loading
@@ -65,7 +59,9 @@ export function Login() {
   function renderForm() {
     return (
       <Grid.Row>
-        <Grid.Column width={4}>
+        <Grid.Column
+          mobile={16}
+          computer={4}>
           <Form loading={loading}>
             <Form.Field>
               <Form.Input
@@ -85,6 +81,7 @@ export function Login() {
 
             <Button
               basic
+              fluid
               type='submit'
               content='Login'
               labelPosition='right'
