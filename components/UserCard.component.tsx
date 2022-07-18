@@ -1,11 +1,11 @@
-import { AuthConst } from '@/contexts/Auth.const';
 import { useAuth } from '@/contexts/Auth.context';
 import { ILogin } from '@/interfaces/ILogin.interface';
-import { Item, Image, Grid, Header, Button } from "semantic-ui-react";
+import { Item, Button } from "semantic-ui-react";
 
 export function UserCard() {
-  const { authState, dispatch, logOut }: any = useAuth();
+  const { authState, logOut }: any = useAuth();
   const { avatar, event, name }: ILogin.Player = authState
+
   function onLogout() {
     logOut();
   }

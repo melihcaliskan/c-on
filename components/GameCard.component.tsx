@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import React from 'react'
+import { useRouter } from 'next/router';
 import { Button, Item } from 'semantic-ui-react'
 import { IGame } from '../interfaces/IGame.interface';
 

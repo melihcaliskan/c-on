@@ -54,13 +54,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   function logOut() {
     LoginService.Logout({ username: state.username }).then(res => {
+      // Clear storage.
       localStorage.removeItem("authData");
-      dispatch({
-        type: AuthConst.LOGOUT
-      });
+
+      // Dispatch logout action.
+      dispatch({ type: AuthConst.LOGOUT });
+
+      // Redirect to login page.
       router.replace("/");
     }).catch(err => {
-
       alert(err.response.data.error);
     })
 

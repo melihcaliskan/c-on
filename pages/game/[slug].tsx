@@ -50,9 +50,12 @@ export function Game(props: IGame.IGamePageProps) {
 
 export async function getServerSideProps(ctx: NextPageContext) {
   const { query } = ctx;
+
+  // Fetch game detail with slug.
   const slug = query?.slug?.toString() || "";
   const game = await GameService.GetDetail(slug);
 
+  // If slug or game doesn't exist, redirect to home.
   if (!slug || !game) {
     return {
       redirect: {
@@ -62,6 +65,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
     }
   }
 
+  // Pass game and source to client.
   return {
     props: {
       game,

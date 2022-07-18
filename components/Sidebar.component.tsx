@@ -11,6 +11,7 @@ export function Sidebar(props: ISidebar.ISidebarProps) {
   }
 
   function renderList() {
+    // Show placeholder
     if (typeof categories === "undefined") {
       return (
         [...Array(5)].map((e, idx) =>
@@ -21,6 +22,7 @@ export function Sidebar(props: ISidebar.ISidebarProps) {
       )
     }
 
+    // Render categories when fetch done.
     return categories?.map((category, idx) => {
       const { name } = category;
       const selected = category.id === selectedCategory?.id;
@@ -34,10 +36,8 @@ export function Sidebar(props: ISidebar.ISidebarProps) {
           </List.Content>
         </List.Item>
       )
-    }
-    )
+    })
   }
-
 
   return (
     <Container>
